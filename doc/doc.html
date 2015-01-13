@@ -1,0 +1,96 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link href='http://news.sina.com.cn/268/2014/1203/markfx.css' rel='stylesheet' type='text/css'><title>doc</title></head><body><article class="markdown-body"><h1 id="pagesjs-"><a name="user-content-pagesjs-" href="#pagesjs-" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Pages.js - 动态分页组件</h1>
+<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>资源引用</h3>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;pages.css&quot; /&gt;
+&lt;script src=&quot;pages-min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<h3 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>初始化参数</h3>
+<ul>
+<li>
+<p><strong>wrap</strong> : 初始化外层容器</p>
+</li>
+<li>
+<p><strong>total</strong> : 总共页码数</p>
+</li>
+<li>
+<p>maxShow : 每次最多显示页码数量，默认为999</p>
+</li>
+<li>
+<p>onIndex : 初始化默认页码，默认为1</p>
+</li>
+<li>
+<p>onPGReady : 组件实例渲染完毕回调</p>
+</li>
+<li>
+<p>onEachPage : 组件实例当前页码变化回调；<strong>注意：基于灵活性，组件初始化渲染完毕不会执行onEachPage</strong></p>
+</li>
+</ul>
+<h3 id="thisstatus"><a name="user-content-thisstatus" href="#thisstatus" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>状态值，组件实例通过<code>this.status</code>访问，只读不写</h3>
+<ul>
+<li>
+<p>total : 总共页码数</p>
+</li>
+<li>
+<p>onIndex : 当前页码</p>
+</li>
+<li>
+<p>from : gotoPage后，记录跳转来源页码</p>
+</li>
+</ul>
+<h3 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>公有方法</h3>
+<ul>
+<li>
+<p>gotoPage :跳转页面(para：Number-跳转页数)。</p>
+</li>
+<li>
+<p>addPages :手动添加页数(para：Number-添加页数, Function-一次性回调函数)。</p>
+</li>
+<li>
+<p>enable :启用/禁用组件(para：Boolean-可选, 是否启用组件, true为启用)。一般用于异步操作，如ajax分页。</p>
+</li>
+<li>
+<p>destructor :组件析构。</p>
+</li>
+</ul>
+<hr />
+<h3 id="demo"><a href="/../index.html">demo</a></h3>
+<h5 id="1"><a name="user-content-1" href="#1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>示例1：<code>完整调用</code></h5>
+<pre><code class="javascript">var page = new Pages({
+    wrap: 'pages-demo',
+    total: 11,
+    maxShow: 5,
+    onIndex: 3,
+    onPGReady: function (){
+    },
+    onEachPage: function (){
+    }
+});
+</code></pre>
+
+<h5 id="2ajax"><a name="user-content-2ajax" href="#2ajax" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>示例2：<code>实现ajax分页(伪代码)</code></h5>
+<pre><code class="javascript">var page = new Pages({
+    // ...其他必填参数
+    // 初始化后根据初始页码制定ajax
+    onPGReady : function (){
+        _ajaxByPage.call(this);
+    },
+    // 页码改变时根据当前页码制定ajax
+    onEachPage : function (){
+        _ajaxByPage.call(this);
+    }
+});
+// ajax伪代码
+function _ajaxByPage (){
+    var me = this;
+    // ajax时暂时disable分页
+    this.enable(false);
+    // ajax请求, 使用this.status.onIndex获取当前页码数作为参数
+    ajax(url, this.status.onIndex, {
+        success : function (){
+            // ...成功后的回调
+            // 重新enable分页
+            me.enable(true);
+        }
+    });
+}
+</code></pre></article><link rel="stylesheet" href="http://news.sina.com.cn/268/2014/1210/monokai_sublime.css"><script src="http://news.sina.com.cn/268/2014/1210/highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>

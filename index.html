@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>JS分页功能组件</title>
+    <link href="public.css" rel="stylesheet" type="text/css" />
+    <link href="sources/pages.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="sources/pages.js"></script>
+</head>
+<body>
+    <div class="pages-demo" id="pages-demo" style="padding-top: 60px;"></div>
+    <script>
+        var testPages = new Pages({
+            wrap: 'pages-demo',   //外层容器id,默认'numlist-cont'
+            total: 12,  //总共页数，默认10
+            maxShow: 10,   //该组件显示最大页数，默认999
+            onIndex: 3, //初始化时前往哪一页,默认1
+            onPGReady: function(s){    //自定义组件加载完毕回调事件
+                this.gotoPage(1);
+            },
+            onEachPage: function(s){    //自定义前往任一页的回调事件
+                setTimeout(function () {
+                    _ajax(s.onIndex);
+                }, 0);
+            }
+        });
+    </script>
+    <!-- for demo -->
+    <div id="pages-cont" style="height: 30px; line-height: 30px; width: 600px; margin: 10px auto;"></div>
+    <!-- for demo end -->
+    <script>
+        // for demo
+        function _ajax (oI) {
+            var pagesCont = document.getElementById('pages-cont');
+            _ajax._timeOut && clearTimeout(_ajax._timeOut);
+            pagesCont.innerHTML = '正在加载第' + oI + '页的数据...';
+            testPages.enable(false);
+            // imagining now ajaxing...
+            _ajax._timeOut = setTimeout(function () {
+                pagesCont.innerHTML = '加载完成，这是第' + oI + '页的数据...';
+                testPages.enable(true);
+            }, Math.random() * 500 + 200);
+        }
+    </script>
+    <!--simple doc-->
+    <div style="width:600px; margin:auto; padding-top:30px; line-height:30px; text-indent:2em;">
+        <h2>简单说明：组件公有方法（完整版请查看文档）</h2>
+        <p> <b>gotoPage</b>
+            :跳转页面(para：Number__跳转页数)。如：
+            <a href="javascript:void(0)" onclick="testPages.gotoPage(8); return false;">点此</a>
+            跳转到第8页
+        </p>
+        <p>
+            <b>addPages</b>
+            :手动添加页数(para：Number__添加页数, Function__回调函数,默认将更新后的组件信息对象作为第一个参数)。如：
+            <a href="javascript:void(0)" onclick="testPages.addPages(3); return false;">点此</a>
+            为控件增加3页
+        </p>
+        <p>
+            <b>enable</b>
+            :启用/禁用组件(para：Boolean__可选,是否启用组件,true为启用)。禁用组件的情形一般出现在页数变化后回调的ajax请求未到位时。如：
+            <a href="javascript:void(0)" onclick="testPages.enable(false); return false;">点此</a>
+            暂时禁用组件，
+            <a href="javascript:void(0)" onclick="testPages.enable(true); return false;">点此</a>
+            再次启用组件
+        </p>
+        <p>
+            <b>destructor</b>
+            :组件析构
+        </p>
+    </div>
+    <!--doc over-->
+</body>
+</html>
