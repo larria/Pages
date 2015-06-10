@@ -255,7 +255,6 @@ var Pages = function(opts) {
 			var wrap = this.wrap;
 			wrap.onclick = null;
 			wrap.innerHTML = '';
-			wrap.parentNode.removeChild(wrap);
 			this.status = null;
 		}
 	};
