@@ -9,32 +9,26 @@
 // update in 12.9, 2014
 // 注意：v1.2无法向下兼容
 
-var Pages = function(opts) {
+var Pages = function() {
     var fn = {
         _id: function(id) {
-            var elements = [];
-            for (var i = 0; i < arguments.length; i++) {
-                var element = arguments[i];
-                if (typeof element == 'string')
-                    element = document.getElementById(element);
-                if (arguments.length == 1)
-                    return element;
-                elements.push(element);
-            }
-            return elements;
+            return document.getElementById(id);
         },
         _class: function(searchClass, node, tag) {
-            var classElements = [];
-            if (node === null)
+            var els, elsLen, pattern, i, j,
+                classElements = [];
+            if (node === null) {
                 node = document;
-            if (tag === null)
+            }
+            if (tag === null) {
                 tag = '*';
-            if (typeof node.getElementsByClassName == 'function') {
+            }
+            if (typeof node.getElementsByClassName === 'function') {
                 return node.getElementsByClassName(searchClass);
             }
-            var els = node.getElementsByTagName(tag);
-            var elsLen = els.length;
-            var pattern = new RegExp("(^|\\s)" + searchClass + "(\\s|$)");
+            els = node.getElementsByTagName(tag);
+            elsLen = els.length;
+            pattern = new RegExp('(^|\\s)' + searchClass + '(\\s|$)');
             for (i = 0, j = 0; i < elsLen; i++) {
                 if (pattern.test(els[i].className)) {
                     classElements[j] = els[i];
@@ -44,8 +38,9 @@ var Pages = function(opts) {
             return classElements;
         },
         extend: function(o, t) {
+            var sName;
             o = o || {};
-            for (var sName in t) {
+            for (sName in t) {
                 o[sName] = t[sName];
             }
             return o;
@@ -71,14 +66,16 @@ var Pages = function(opts) {
             return fn.extend(conf, c);
         },
         _render: function(c) {
-            var status = this.status,
-                wrap = this.wrap;
+            var status, wrap,
+                pagesW, pagesLt, pagesRt, pagesLlt, pagesRrt,
+                pagesInfo, onIndex, total, maxShow,
+                i, isOn;
+            status = this.status;
+            wrap = this.wrap;
             wrap.innerHTML = '';
-            var pagesW = wrap.appendChild(document.createElement('DIV')),
-                pagesLt = pagesW.appendChild(document.createElement('A')),
-                pagesRt = pagesW.appendChild(document.createElement('A')),
-                pagesLlt,
-                pagesRrt;
+            pagesW = wrap.appendChild(document.createElement('DIV'));
+            pagesLt = pagesW.appendChild(document.createElement('A'));
+            pagesRt = pagesW.appendChild(document.createElement('A'));
             pagesW.className = 'pages-w';
             pagesLt.className = 'pages-lt';
             pagesRt.className = 'pages-rt';
@@ -86,20 +83,20 @@ var Pages = function(opts) {
             pagesRrt = pagesW.appendChild(document.createElement('A'));
             pagesLlt.className = 'pages-llt';
             pagesRrt.className = 'pages-rrt';
-            var pagesInfo = {},
-                onIndex = c.onIndex,
-                total = c.total,
-                maxShow = c.maxShow;
+            pagesInfo = {};
+            onIndex = c.onIndex;
+            total = c.total;
+            maxShow = c.maxShow;
             pagesInfo = this._createPagesInfo(onIndex, total, maxShow);
-            for (var i = pagesInfo.minPageNo; i <= pagesInfo.maxPageNo; i++) {
-                var isOn = (i == onIndex ? true : false);
+            for (i = pagesInfo.minPageNo; i <= pagesInfo.maxPageNo; i++) {
+                isOn = i === onIndex ? true : false;
                 pagesW.insertBefore(this._creatAPage(i, isOn), pagesRt);
             }
-            if (total == 1) {
+            if (total === 1) {
                 pagesLt.style.display = pagesLlt.style.display = pagesRt.style.display = pagesRrt.style.display = 'none';
-            } else if (onIndex == total) {
+            } else if (onIndex === total) {
                 pagesRt.style.display = pagesRrt.style.display = 'none';
-            } else if (onIndex == 1) {
+            } else if (onIndex === 1) {
                 pagesLt.style.display = pagesLlt.style.display = 'none';
             }
             status = {
@@ -115,25 +112,24 @@ var Pages = function(opts) {
         _initEvents: function() {
             var that = this,
                 wrap = this.wrap;
-            if (wrap.onclick) {
-                return;
-            }
-            wrap.onclick = function(e) {
-                var e = e || window.event,
+            if (wrap.onclick) return;
+            wrap.onclick = function(evt) {
+                var e = evt || window.event,
                     target = e.target || e.srcElement,
-                    tClzN;
-                if (target.tagName != 'A') return;
+                    tClzN, index;
+                if (target.tagName !== 'A') return;
                 tClzN = target.className;
                 switch (tClzN) {
                     case 'pages-lt':
-                        that.gotoPage(parseInt(that.status.onIndex) - 1);
+                        that.gotoPage(parseInt(that.status.onIndex, 10) - 1);
                         break;
                     case 'pages-rt':
-                        that.gotoPage(parseInt(that.status.onIndex) + 1);
+                        that.gotoPage(parseInt(that.status.onIndex, 10) + 1);
                         break;
                     case 'pages-llt':
-                        if (that.status.onIndex != 1)
+                        if (that.status.onIndex !== 1){
                             that.gotoPage(1);
+                        }
                         break;
                     case 'pages-rrt':
                         that.gotoPage(that.status.total);
@@ -141,7 +137,7 @@ var Pages = function(opts) {
                     case 'page-cur':
                         return;
                     case '':
-                        var index = parseInt(target.innerHTML);
+                        index = parseInt(target.innerHTML, 10);
                         that.gotoPage(index);
                         break;
                     default:
@@ -150,30 +146,30 @@ var Pages = function(opts) {
             };
         },
         _createPagesInfo: function(onNumber, total, maxShow) {
-            var result = {
-                minPageNo: 1,
-                maxPageNo: maxShow
-            };
+            var halfA, halfB, sumOfRight, sumOfLeft, fromPageIndex,
+                result = {
+                    minPageNo: 1,
+                    maxPageNo: maxShow
+                };
             if (total < maxShow) {
                 result = {
                     minPageNo: 1,
                     maxPageNo: total
                 };
             } else {
-                var halfB = parseInt(maxShow / 2),
-                    halfA = maxShow - halfB - 1,
-                    sumOfRight, sumOfLeft, fromPageIndex;
+                halfB = parseInt(maxShow / 2, 10);
+                halfA = maxShow - halfB - 1;
                 if (onNumber > maxShow) {
                     sumOfRight = Math.min(halfA, total - onNumber);
                     sumOfLeft = maxShow - sumOfRight - 1;
                     fromPageIndex = onNumber - sumOfLeft;
                 } else {
-                    //not enough items on right side
+                    // not enough items on right side
                     if (onNumber + halfB >= total) {
                         sumOfRight = total - onNumber;
                         sumOfLeft = maxShow - sumOfRight - 1;
                         fromPageIndex = onNumber - sumOfLeft;
-                        //if got enough items on right side, put the onNumber in the middle position of the list
+                        // if got enough items on right side, put the onNumber in the middle position of the list
                     } else {
                         sumOfLeft = Math.min(halfA, onNumber - 1);
                         sumOfRight = maxShow - sumOfLeft - 1;
@@ -191,27 +187,28 @@ var Pages = function(opts) {
             var wrap = this.wrap,
                 pagesW = wrap.getElementsByTagName('DIV')[0],
                 aPage = pagesW.appendChild(document.createElement('A'));
-            if (isOn)
-                aPage.className = 'page-cur';
+            isOn && (aPage.className = 'page-cur');
             aPage.appendChild(document.createTextNode(index.toString()));
             return aPage;
         },
         _setArrows: function(isLeft, isShow) {
-            var arrowClass = isLeft ? 'pages-lt' : 'pages-rt',
-                wrap = this.wrap,
-                arrow = fn._class(arrowClass, wrap, 'A')[0],
-                exArrClass = isLeft ? 'pages-llt' : 'pages-rrt',
-                exArrow = fn._class(exArrClass, wrap, 'A')[0];
+            var arrowClass, wrap, arrow, exArrClass, exArrow;
+            arrowClass = isLeft ? 'pages-lt' : 'pages-rt';
+            wrap = this.wrap;
+            arrow = fn._class(arrowClass, wrap, 'A')[0];
+            exArrClass = isLeft ? 'pages-llt' : 'pages-rrt';
+            exArrow = fn._class(exArrClass, wrap, 'A')[0];
 
             arrow.style.display = isShow ? '' : 'none';
             exArrow.style.display = isShow ? '' : 'none';
         },
-        //以下为公有方法
-        //跳转页面(para：Number__跳转页数)
+        // 以下为公有方法
+        // 跳转页面(para：Number__跳转页数)
         gotoPage: function(toPageNo) {
+            var conf;
             if (!this.status.enabled) return;
-            if (toPageNo == this.status.onIndex) return;
-            var conf = {
+            if (toPageNo === this.status.onIndex) return;
+            conf = {
                 from: this.status.onIndex,
                 onIndex: toPageNo,
                 total: this.conf.total,
@@ -220,7 +217,7 @@ var Pages = function(opts) {
             this._render(conf);
             this.conf.onEachPage(this.status);
         },
-        //手动添加页数(para：Number__添加页数, [Function__回调函数,默认将更新后的组件信息对象作为第一个参数传入])
+        // 手动添加页数(para：Number__添加页数, [Function__回调函数,默认将更新后的组件信息对象作为第一个参数传入])
         addPages: function(num, onAddDone) {
             var conf = this.conf;
             if (!this.status.enabled) return;
@@ -230,17 +227,12 @@ var Pages = function(opts) {
             this._render(conf);
             onAddDone && onAddDone.call(this, this.status);
         },
-        //切换启用/禁用组件(para：Boolean__是否启用组件,true为启用)
+        // 切换启用/禁用组件(para：Boolean__是否启用组件,true为启用)
         enable: function(isEnable) {
             if (typeof isEnable !== 'boolean') return;
             var wrap = this.wrap;
             if (isEnable) {
                 if (this.status.enabled) return;
-                var c = {
-                    total: this.status.total,
-                    maxShow: this.status.maxShow,
-                    onIndex: this.status.onIndex
-                };
                 wrap.className = wrap.className.replace(' pages-disable', '');
                 this._initEvents();
                 this.status.enabled = true;
@@ -251,11 +243,10 @@ var Pages = function(opts) {
                 this.status.enabled = false;
             }
         },
-        //组件析构
+        // 组件析构
         destructor: function() {
-            var wrap = this.wrap;
-            wrap.onclick = null;
-            wrap.innerHTML = '';
+            this.wrap.onclick = null;
+            this.wrap.innerHTML = '';
             this.status = null;
         }
     };

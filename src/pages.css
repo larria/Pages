@@ -1,11 +1,11 @@
-.pages-w { height:21px; line-height:21px; font-size:12px; text-align:center; font-weight:bold; }
-.pages-w a { display:inline-block; *zoom:1; vertical-align: bottom; width:21px; height:21px; line-height:21px; text-align:center; margin-right:5px; background:url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 0 no-repeat; cursor:pointer; color:#333;}
-.pages-w a.pages-llt { background:url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -30px no-repeat; }
-.pages-w a.pages-lt { background:url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -60px no-repeat; }
-.pages-w a.pages-rt { background:url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -120px no-repeat; }
-.pages-w a.pages-rrt { background:url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -90px no-repeat; }
-.pages-w a.page-cur { background:none;}
-.pages-w a.page-cur:link,.pages-w a.page-cur:visited,.pages-w a.page-cur:active,.pages-w a.page-cur:hover,.pages-w a.page-cur:focus { color:#444; text-decoration:none; }
-.pages-disable { filter:alpha(opacity=50); opacity: 0.5;}
-.pages-disable a { cursor:inherit;}
-.pages-disable a:hover { text-decoration:none;}
+.pages-w{height: 21px; text-align: center; font-size: 12px; font-weight: bold; line-height: 21px;}
+.pages-w a{display: inline-block; width: 21px; height: 21px; margin-right: 5px; cursor: pointer; text-align: center; vertical-align: bottom; color: #333;background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 0 no-repeat; line-height: 21px; *zoom: 1;}
+.pages-w a.pages-llt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -30px no-repeat;}
+.pages-w a.pages-lt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -60px no-repeat;}
+.pages-w a.pages-rt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -120px no-repeat;}
+.pages-w a.pages-rrt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -90px no-repeat;}
+.pages-w a.page-cur{background: none;}
+.pages-w a.page-cur:link, .pages-w a.page-cur:visited, .pages-w a.page-cur:active, .pages-w a.page-cur:hover, .pages-w a.page-cur:focus{text-decoration: none; color: #444;}
+.pages-disable{opacity: .5;filter: alpha(opacity=50);}
+.pages-disable a{cursor: inherit;}
+.pages-disable a:hover{text-decoration: none;}
