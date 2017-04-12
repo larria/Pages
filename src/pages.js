@@ -247,6 +247,7 @@ var Pages = function() {
         destructor: function() {
             this.wrap.onclick = null;
             this.wrap.innerHTML = '';
+            this.wrap.className = this.wrap.className.replace(' pages-disable', '');
             this.status = null;
         }
     };

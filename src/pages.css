@@ -1,11 +1,11 @@
-.pages-w{height: 21px; text-align: center; font-size: 12px; font-weight: bold; line-height: 21px;}
-.pages-w a{display: inline-block; width: 21px; height: 21px; margin-right: 5px; cursor: pointer; text-align: center; vertical-align: bottom; color: #333;background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 0 no-repeat; line-height: 21px; *zoom: 1;}
-.pages-w a.pages-llt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -30px no-repeat;}
-.pages-w a.pages-lt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -60px no-repeat;}
-.pages-w a.pages-rt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -120px no-repeat;}
-.pages-w a.pages-rrt{background: url(http://i1.sinaimg.cn/ty/nba2012/img_57.png) 0 -90px no-repeat;}
-.pages-w a.page-cur{background: none;}
-.pages-w a.page-cur:link, .pages-w a.page-cur:visited, .pages-w a.page-cur:active, .pages-w a.page-cur:hover, .pages-w a.page-cur:focus{text-decoration: none; color: #444;}
-.pages-disable{opacity: .5;filter: alpha(opacity=50);}
+.pages-w{display: inline-block; padding-left: 20px; text-align: center; font-size: 14px; line-height: 30px;}
+.pages-w a{display: inline-block; width: 30px; height: 30px; margin-right: 5px; cursor: pointer; text-align: center; vertical-align: bottom; color: #333; line-height: 30px; *zoom: 1; user-select:none;}
+.pages-w a.pages-llt{ background: url(//n.sinaimg.cn/finance/c30320b4/20170410/page_tofirst.png?1) 0 0 no-repeat;}
+.pages-w a.pages-lt{background: url(//n.sinaimg.cn/finance/c30320b4/20170410/page_left.png) 0 0 no-repeat;}
+.pages-w a.pages-rt{background: url(//n.sinaimg.cn/finance/c30320b4/20170410/page_right.png) 0 0 no-repeat;}
+.pages-w a.pages-rrt{ background: url(//n.sinaimg.cn/finance/c30320b4/20170410/page_tolast.png?1) 0 0 no-repeat;}
+.pages-w a.page-cur, .pages-w a.page-cur:visited{background: #07c; color:#fff;}
+.pages-w a.page-cur:hover{ opacity: 0.8; filter:alpha(Opacity=80);}
+.pages-disable{opacity: .5; filter: alpha(opacity=50);}
 .pages-disable a{cursor: inherit;}
 .pages-disable a:hover{text-decoration: none;}
